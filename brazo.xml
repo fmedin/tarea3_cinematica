@@ -30,7 +30,7 @@
 
         <!-- Pivote del hombro: offset en X y a la altura de la columna 
         <body name="shoulder_mount" pos="0.094 0 0.106">
-          <!-- J2 hombro (pitch) -->
+          <!-- J2 hombro (pitch) 
           <joint name="j2_shoulder" type="hinge" axis="0 1 0" range="-3.1416 3.1416"/>
           <!-- Link 1: cápsula de L1 a lo largo de +X 
           <geom type="capsule" fromto="0 0 0  0.344 0 0" size="0.025"/>
