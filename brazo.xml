@@ -15,7 +15,8 @@
         L2 = 0.350
   -->
 
-  <worldbody>
+
+<worldbody>
     <!-- Base plana -->
     <body name="base" pos="0 0 0">
       <geom type="box" size="0.12 0.12 0.02" rgba="0.4 0.4 0.4 1"/>
@@ -44,12 +45,25 @@
               <geom type="box" size="0.03 0.02 0.02" rgba="0.1 0.7 0.2 1"/>
               <!-- Punto de interés del efector final -->
               <site name="ee" pos="0.06 0 0" size="0.007" rgba="0 1 0 1"/>
+
+              <!-- J4: Muñeca, rotación en yaw -->
+              <joint name="j4_wrist_yaw" type="hinge" axis="0 0 1" range="-1.57 1.57"/>
+              <geom type="capsule" fromto="0 0 0  0.05 0 0" size="0.02"/>
+
+              <!-- J5: Muñeca, rotación en pitch -->
+              <joint name="j5_wrist_pitch" type="hinge" axis="1 0 0" range="-1.57 1.57"/>
+              <geom type="capsule" fromto="0 0 0  0 0.05 0" size="0.02"/>
+
+              <!-- J6: Gripper, apertura/cierre -->
+              <joint name="j6_gripper" type="hinge" axis="0 0 1" range="0 0.02"/>
+              <geom type="box" size="0.03 0.02 0.02" rgba="0.1 0.7 0.2 1"/>
             </body>
           </body>
         </body>
       </body>
     </body>
-  </worldbody>
+</worldbody>
+
 
   <actuator>
     <position name="m1" joint="j1_yaw"     kp="180"/>
