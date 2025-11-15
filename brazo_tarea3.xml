@@ -41,8 +41,8 @@
     <!-- Definición de colores con formato rgba para las diferentes partes del brazo -->
     <material name="mat_base" specular="0" shininess="0.25" rgba="1 1 1 1"/> <!-- Blanco para la base -->
     <material name="mat_link_horiz" specular="0" shininess="0.25" rgba="1 1 1 1"/> <!-- Blanco para los links -->
-    <material name="mat_hombro" specular="0" shininess="0.25" rgba="0 0 0 1"/> <!-- Negro para los joints -->
-    <material name="mat_antebrazo" specular="0" shininess="0.25" rgba="0 0 0 1"/> <!-- Negro para los joints -->
+    <material name="mat_hombro" specular="0" shininess="0.25" rgba="1 0 0 1"/> <!-- Negro para los joints -->
+    <material name="mat_antebrazo" specular="0" shininess="0.25" rgba="1 0 0 1"/> <!-- Negro para los joints -->
     <material name="mat_gripper" specular="0" shininess="0.25" rgba="0.1 0.8 0.1 1"/> <!-- Verde para el gripper -->
   </asset>
 
