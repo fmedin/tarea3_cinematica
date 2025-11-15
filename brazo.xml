@@ -55,6 +55,9 @@
     <position name="m1" joint="j1_yaw"     kp="180"/>
     <position name="m2" joint="j2_shoulder" kp="180"/>
     <position name="m3" joint="j3_elbow"    kp="180"/>
+    <position name="m4" joint="j4_wrist_yaw" kp="180"/>
+    <position name="m5" joint="j5_wrist_pitch" kp="180"/>
+    <position name="m6" joint="j6_gripper" kp="180"/>
   </actuator>
 
   <keyframe>
