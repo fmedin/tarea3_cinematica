@@ -112,8 +112,11 @@
     <position class="q_rot_z" name="act_q3" joint="q3_antebrazo"/>
     <position class="q_rot_y" name="act_q4" joint="q4_link3"/>
     <position class="q_rot_z" name="act_q5" joint="q5_gripper"/>
+    <!-- Nuevos actuadores para la base -->
+    <position class="q_base_rotation" name="act_q_base_rotation" joint="q_base_rotation"/>
+    <position class="q_base_translation" name="act_q_base_translation" joint="q_base_translation"/>
   </actuator>
-
+  
   <keyframe>
     <key name="home" qpos="0 0 0 0 0 0" ctrl="0 0 0 0 0 0"/>
   </keyframe>
