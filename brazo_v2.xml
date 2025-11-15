@@ -1,0 +1,121 @@
+<mujoco model="brazo_tarea3">
+
+  <!-- Definimos las unidades de los ángulos en radianes y configuramos el repositorio de modelos -->
+  <compiler angle="radian" autolimits="true"/>
+
+  <!-- Configuraciones generales para el brazo, como la resistencia al giro y la inercia del motor -->
+  <default>
+    <default class="brazo">
+      <!-- Configuración de geometría y propiedades para todos los links -->
+      <geom friction="0.2" margin="0.001" type="cylinder" contype="0" conaffinity="0" group="2"/>
+      <joint damping="10.0" armature="0.01"/>
+
+      <!-- Configuración básica para los joints de rotación alrededor de los ejes Z y Y -->
+      <default class="q_rot_z">
+        <joint axis="0 0 1" range="-3.14 3.14"/> <!-- Rotación en Z -->
+        <position ctrlrange="-3.14 3.14" kp="15" forcerange="-15 15"/>
+      </default>
+      <default class="q_rot_y">
+        <joint axis="0 1 0" range="-1.57 1.57"/> <!-- Rotación en Y -->
+        <position ctrlrange="-1.57 1.57" kp="15" forcerange="-15 15"/>
+      </default>
+
+      <!-- Definimos los materiales para cada parte del brazo para asignarles colores -->
+      <default class="mat_base">
+        <geom material="mat_base"/>
+      </default>
+      <default class="mat_link_horiz">
+        <geom material="mat_link_horiz"/>
+      </default>
+      <default class="mat_hombro">
+        <geom material="mat_hombro"/>
+      </default>
+      <default class="mat_antebrazo">
+        <geom material="mat_antebrazo"/>
+      </default>
+      <default class="mat_gripper">
+        <geom material="mat_gripper"/>
+      </default>
+    </default>
+  </default>
+
+  <asset>
+    <!-- Colores de las partes del brazo (con rgba) -->
+    <material name="mat_base" specular="0" shininess="0.25" rgba="1 1 1 1"/> <!-- Blanco para la base -->
+    <material name="mat_link_horiz" specular="0" shininess="0.25" rgba="1 1 1 1"/> <!-- Blanco para los links -->
+    <material name="mat_hombro" specular="0" shininess="0.25" rgba="1 0 0 1"/> <!-- Rojo para los joints -->
+    <material name="mat_antebrazo" specular="0" shininess="0.25" rgba="1 0 0 1"/> <!-- Rojo para los joints -->
+    <material name="mat_gripper" specular="0" shininess="0.25" rgba="0.1 0.8 0.1 1"/> <!-- Verde para el gripper -->
+  </asset>
+
+  <worldbody>
+    <!-- Se define la iluminación de la escena -->
+    <light name="spotlight" mode="targetbodycom" target="base_link" pos="0 -1 2"/>
+
+    <!-- Definición de la base del brazo -->
+    <body name="base_link" pos="0 0 0" childclass="brazo">
+      <!-- Joint para rotación de la base -->
+      <joint name="q_base_rotation" type="hinge" axis="0 0 1" range="-3.14 3.14"/>
+
+      <!-- Joint para traslación de la base a lo largo del eje X -->
+      <joint name="q_base_translation" type="slide" axis="1 0 0" range="-0.5 0.5"/>
+
+      <!-- Parámetros de inercia para la base -->
+      <inertial mass="1.0" pos="0 0 0.10" diaginertia="0.01 0.01 0.01"/>
+      <geom class="mat_base" fromto="0 0 0  0 0 0.20" size="0.08"/>
+
+      <!-- Definición de las piezas "hijas" de la base -->
+      <body name="link_1" pos="0 0 0.20">
+        <joint class="q_rot_z" name="q0_base" pos="0 0 0"/>
+        <inertial mass="0.1" pos="0 0.005 0" diaginertia="0.001 0.001 0.001"/>
+        <geom class="mat_link_horiz" fromto="0 0 0  0 0.01 0" size="0.03"/>
+
+        <body name="hombro_link" pos="0 0.01 0">
+          <joint class="q_rot_y" name="q1_hombro" pos="0 0 0"/>
+          <inertial mass="0.5" pos="0 0 0.172" diaginertia="0.01 0.01 0.01"/>
+          <geom class="mat_hombro" fromto="0 0 0  0 0 0.344" size="0.05"/>
+
+          <body name="link_2" pos="0 0 0.344">
+            <joint class="q_rot_y" name="q2_link2" pos="0 0 0"/>
+            <inertial mass="0.2" pos="0 0.06 0" diaginertia="0.005 0.005 0.005"/>
+            <geom class="mat_link_horiz" fromto="0 0 0  0 0.1205 0" size="0.03"/>
+
+            <body name="antebrazo_link" pos="0 0.1205 0">
+              <joint class="q_rot_z" name="q3_antebrazo" pos="0 0 0"/>
+              <inertial mass="0.5" pos="0 0 0.175" diaginertia="0.01 0.01 0.01"/>
+              <geom class="mat_antebrazo" fromto="0 0 0  0 0 0.35" size="0.05"/>
+
+              <body name="link_3" pos="0 0 0.35">
+                <joint class="q_rot_y" name="q4_link3" pos="0 0 0"/>
+                <inertial mass="0.2" pos="0 0.055 0" diaginertia="0.005 0.005 0.005"/>
+                <geom class="mat_link_horiz" fromto="0 0 0  0 0.11 0" size="0.03"/>
+
+                <body name="gripper_link" pos="0 0.11 0">
+                  <joint class="q_rot_z" name="q5_gripper" pos="0 0 0"/>
+                  <inertial mass="0.1" pos="0 0 0.075" diaginertia="0.001 0.001 0.001"/>
+                  <geom class="mat_gripper" fromto="0 0 0  0 0 0.15" size="0.04"/>
+                  <site name="eef" pos="0 0 0.15" size="0.01"/>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <!-- Definimos los actuadores (motores) para cada joint -->
+  <actuator>
+    <position class="q_rot_z" name="act_q0" joint="q0_base"/>
+    <position class="q_rot_y" name="act_q1" joint="q1_hombro"/>
+    <position class="q_rot_y" name="act_q2" joint="q2_link2"/>
+    <position class="q_rot_z" name="act_q3" joint="q3_antebrazo"/>
+    <position class="q_rot_y" name="act_q4" joint="q4_link3"/>
+    <position class="q_rot_z" name="act_q5" joint="q5_gripper"/>
+  </actuator>
+
+  <keyframe>
+    <key name="home" qpos="0 0 0 0 0 0" ctrl="0 0 0 0 0 0"/>
+  </keyframe>
+
+</mujoco>
